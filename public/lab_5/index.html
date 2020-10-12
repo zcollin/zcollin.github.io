@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Zachary Collins Lab 4</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+      <div class="container">
+          <div class="header">
+            <h1>Zachary Collins' Lab 4</h1>
+          </div>
+          <form action="/api" method="post">
+              <ul class="flex-outer">
+                  <li>
+                      <label for="fname">First Name</label>
+                      <input type="text" name="fname" id="fname" placeholder="Enter your first name">
+                  </li>
+                  <li>
+                      <label for="lname">Last Name</label>
+                      <input type="text" name="lname" id="lname" placeholder="Enter your last name">
+                  </li>
+                  <li>
+                      <label for="email">Email</label>
+                      <input type="email" name="email" id="email" placeholder="Enter your email">
+                  </li>
+                  <li>
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" name="phone" id="phone" placeholder="Enter your phone number">
+                  </li>
+                  <li>
+                    <label for="message">Message</label>
+                    <textarea rows="5" cols="33" name="message" id="message" placeholder="Enter a message here"></textarea>
+                  </li>
+                  <li>
+                    <p class = "checkbox-list-label">Age</p>
+                    <ul class="flex-inner">
+                        <li>
+                            <input type="checkbox" name="eighteen-to-thirtyfive" id="eighteen-to-thirtyfive">
+                            <label for="eighteen-to-thirtyfive">18-35</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="thirtyfive-to-fifty" id="thirtyfive-to-fifty">
+                            <label for="thirtyfive-to-fifty">35-50</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="fifty-to-sixtyfive" id="fifty-to-sixtyfive">
+                            <label for="fifty-to-sixtyfive">50-65</label>
+                        </li>
+                    </ul>
+                  </li>
+                <li>
+                  <button name="button" id="button" class="button" type="submit">Submit</button>
+                  <button name="button" id="button" onclick="testFunction()" class="button" type="button">Activate</button>
+                </li>
+              </ul>
+          </form>
+      </div>
+      <script>
+            function testFunction() {
+                fetch('/api')
+                .then((response) => response.text())
+                .then((response) => {
+                    console.log(response);
+                    document.querySelector(".header > h1").textContent = response;
+                    document.querySelector("title").textContent = response;
+                    document.querySelector("body").style.backgroundColor = "#FF6100";
+                    document.querySelector(".flex-outer").style.margin = "0 auto";
+                    document.querySelector("p").textContent = "Fruits";
+                    const list = document.querySelectorAll(".flex-inner > li > input");
+                    const fruit = ["kiwi", "dragonfruit", "pomelo"];
+                    for(let i = 0; i < list.length; i+=1) {
+                        list[i].name = fruit[i];
+                        list[i].id = fruit[i];
+                    }
+                    const list2 = document.querySelectorAll(".flex-inner > li > label");
+                    for(let i = 0; i < list2.length; i+=1) {
+                        list2[i].htmlFor = fruit[i];
+                        list2[i].innerHTML = fruit[i];
+                        list2[i].innerText = fruit[i];
+                    }
+                })
+            }
+      </script>
+  </body>
+</html>
