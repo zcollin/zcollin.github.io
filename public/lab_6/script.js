@@ -10,11 +10,17 @@ function range(int) {
 
 function sortFunction(a, b, key) {
   if (a[key] < b[key]) {
-    return -1;
-  } if (a[key] > b[key]) {
     return 1;
+  } if (a[key] > b[key]) {
+    return -1;
   }
   return 0;
+}
+
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 document.body.addEventListener('submit', async (e) => {
@@ -29,7 +35,27 @@ document.body.addEventListener('submit', async (e) => {
   })
     .then((fromServer) => fromServer.json())
     .then((fromServer) => {
-      // You're going to do your lab work in here. Replace this comment.
+      if (document.querySelector('.flex-inner')) {
+        document.querySelector('.flex-inner').remove();
+      }
+      const newArr = range(10);
+      const newArr2 = newArr.map(() => {
+        const number = getRandomIntInclusive(0, 243);
+        return fromServer[number];
+      });
+      const reverseAlphaList = newArr2.sort((a, b) => sortFunction(a, b, 'name'));
+
+      const ul = document.createElement('ul');
+      ul.className = 'flex-inner';
+      $('form').prepend(ul);
+
+      reverseAlphaList.forEach((el, i) => {
+        const li = document.createElement('li');
+        $(li).append(`<input type="checkbox" value=${el.code} id=${el.code} />`);
+        $(li).append(`<label for=${el.code}>${el.name}</label>`);
+        $(ul).append(li);
+      });
+
       console.log('fromServer', fromServer);
     })
     .catch((err) => console.log(err));
